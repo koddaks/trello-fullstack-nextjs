@@ -1,0 +1,6 @@
+<svg width="73" height="49" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Blue Circle -->
+  <circle cx="75" cy="50" r="40" fill="rgba(0, 191, 255, 0.75)" />
+  <!-- Orange Circle -->
+  <circle cx="125" cy="50" r="40" fill="rgba(255, 69, 0, 0.75)" />
+</svg>
