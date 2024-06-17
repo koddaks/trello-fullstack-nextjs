@@ -2,7 +2,7 @@ import { OrganizationSwitcher } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
 
 const OrganizationIdPage = () => {
-  return <div>Organization Page</div>;
+  return <div className='flex flex-col items-center justify-center h-full'>Organization Page</div>
 };
 
 export default OrganizationIdPage;
