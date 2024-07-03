@@ -35,7 +35,7 @@ model List {
   order Int
 
   boardId String
-  board  Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
 
   cards Card[]
 
@@ -51,11 +51,11 @@ model Card {
   order       Int
   description String? @db.Text
 
-  lisdId String
-  list   List   @relation(fields: [lisdId], references: [id], onDelete: Cascade)
+  listId String
+  list   List   @relation(fields: [listId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([lisdId])
+  @@index([listId])
 }

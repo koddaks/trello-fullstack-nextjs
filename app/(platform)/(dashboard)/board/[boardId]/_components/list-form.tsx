@@ -34,7 +34,7 @@ export const ListForm = () => {
 
   const { execute, fieldErrors } = useAction(createList, {
     onSuccess: (data) => {
-      toast.success(`List ${data.title} created`);
+      toast.success(`List "${data.title}" created`);
       disableEditing();
       router.refresh();
     },
@@ -63,7 +63,7 @@ export const ListForm = () => {
     return (
       <ListWrapper>
         <form
-        action={onSubmit}
+          action={onSubmit}
           ref={formRef}
           className="w-full p-3 rounded-md bg-white space-y-4 shadow-md"
         >
