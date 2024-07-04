@@ -10,8 +10,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Layout } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { ElementRef, useRef, useState } from 'react';
-import { on } from 'events';
-import { set } from 'lodash';
 
 interface HeaderProps {
   data: CardWithList;
