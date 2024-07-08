@@ -47,11 +47,14 @@ export const Description = ({ data }: DescriptionProps) => {
   useEventListener('keydown', onKeyDown);
   useOnClickOutside(formRef, disableEditing);
 
-  const {execute, fieldErrors} = useAction(updateCard, {
+  const { execute, fieldErrors } = useAction(updateCard, {
     onSuccess(data) {
-        queryClient.invalidateQueries({
-            queryKey: ['card', data.id],
-        });
+      queryClient.invalidateQueries({
+        queryKey: ['card', data.id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['card-logs', data.id],
+      });
       toast.success(`Card "${data.title}" description updated.`);
       disableEditing();
     },
@@ -65,10 +68,10 @@ export const Description = ({ data }: DescriptionProps) => {
     const boardId = params.boardId as string;
 
     execute({
-        id: data.id,
-        description,
-        boardId,
-    })
+      id: data.id,
+      description,
+      boardId,
+    });
   };
 
   return (
