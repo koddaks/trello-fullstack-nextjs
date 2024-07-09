@@ -8,6 +8,8 @@ import { createSafeAction } from '@/lib/create-safe-action';
 import { CreateBoard } from './schema';
 import { ACTION, ENTITY_TYPE } from '@prisma/client';
 import { createAuditLog } from '@/lib/create-audit-log';
+import { incrementAvailableCount, hasAvailableCount } from '@/lib/org-limit';
+import { checkSubscription } from '@/lib/subscription';
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
@@ -18,11 +20,19 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     };
   }
 
+  const canCreate = await hasAvailableCount();
+  const isPro = await checkSubscription();
+
+  if (!canCreate && !isPro) {
+    return {
+      error:
+        'You have reached the limit of free boards. Please upgrade your workspace to create more boards.',
+    };
+  }
   const { title, image } = data;
 
   const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName] =
     image.split('|');
-    console.log({imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName})
 
   if (
     !imageId ||
@@ -51,12 +61,16 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       },
     });
 
+    if (!isPro) {
+      await incrementAvailableCount();
+    }
+
     await createAuditLog({
       entityId: board.id,
       entityTitle: board.title,
       entityType: ENTITY_TYPE.BOARD,
       action: ACTION.CREATE,
-    })
+    });
   } catch (error) {
     return {
       error: 'Failed to create',

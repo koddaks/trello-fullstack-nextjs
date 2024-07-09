@@ -1,10 +1,15 @@
-import { auth, authMiddleware, clerkMiddleware, redirectToSignIn } from '@clerk/nextjs/server';
+import {
+  auth,
+  authMiddleware,
+  clerkMiddleware,
+  redirectToSignIn,
+} from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
 // export default clerkMiddleware();
 
 export default authMiddleware({
-  publicRoutes: ['/'],
+  publicRoutes: ['/', '/api/webhook'],
   afterAuth(auth, req) {
     if (auth.userId && auth.isPublicRoute) {
       let path = '/select-org';
@@ -21,7 +26,7 @@ export default authMiddleware({
       return redirectToSignIn({ returnBackUrl: req.url });
     }
 
-    if( auth.userId && !auth.orgId && req.nextUrl.pathname !== '/select-org') {
+    if (auth.userId && !auth.orgId && req.nextUrl.pathname !== '/select-org') {
       const orgSeletion = new URL('/select-org', req.url);
       return NextResponse.redirect(orgSeletion);
     }
